@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <!-- Import style -->
+    <!-- Import style -->
+    <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
+    <!-- Import Vue 3 -->
+    <script src="//unpkg.com/vue@3"></script>
+    <!-- Import component library -->
+    <script src="//unpkg.com/element-plus"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 22px);
+            /* Adjust width for padding and border */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            background-color: #000;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #444;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+        <div id="mains" style="width: 600px;height: 300px;"></div>
+
+
+        <div class="mb-4">
+            <el-button plain>Plain</el-button>
+            <el-button type="primary" plain>Primary</el-button>
+            <el-button type="success" plain>Success</el-button>
+            <el-button type="info" plain>Info</el-button>
+            <el-button type="warning" plain>Warning</el-button>
+            <el-button type="danger" plain>Danger</el-button>
+        </div>
+
+
+
+
+        <h1>待办事项列表</h1>
+        <input type="text" v-model="newTodo" placeholder="需要做什么？" />
+        <button @click="addTodo">添加</button>
+
+        <h2>{{ completedCount }} out of {{ todos.length }} items completed</h2>
+
+        <ul>
+            <li v-for="(todo, index) in todos" :key="index">
+                <input type="checkbox" v-model="todo.completed" />
+                <span :class="{ 'completed': todo.completed }">{{ todo.text }}</span>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+
+
+
+        const app = Vue.createApp({
+            data() {
+                return {
+                    newTodo: '',
+                    todos: [
+                        { text: 'Learn Vue', completed: false },
+                        { text: 'Create a Vue project with the CLI', completed: true },
+                        { text: 'Have fun', completed: true },
+                        { text: 'Create a to-do list', completed: false },
+                        { text: 'hi', completed: true }
+                    ]
+                }
+            },
+            computed: {
+                completedCount() {
+                    return this.todos.filter(todo => todo.completed).length;
+                }
+            },
+            mounted() {
+                this.init();
+            },
+            created() {
+
+            },
+            methods: {
+                addTodo() {
+                    if (this.newTodo.trim() !== '') {
+                        this.todos.push({ text: this.newTodo, completed: false });
+                        this.newTodo = '';
+                    }
+                },
+                init() {
+        var chartDom = document.getElementById('mains');
+        var myChart = echarts.init(chartDom);
+        var option;
+        option = {
+            xAxis: {
+                type: 'category',
+                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    data: [150, 230, 224, 218, 135, 147, 260],
+                    type: 'line'
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
+                }
+            }
+        });
+        app.use(ElementPlus);
+        app.mount('#app');
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>
